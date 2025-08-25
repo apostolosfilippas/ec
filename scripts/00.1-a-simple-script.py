@@ -1,3 +1,11 @@
-# This is the second script for this class
+###########################################################
+# 🎓 Professor: Apostolos Filippas
+# 📘 Class:     E-Commerce
+# 📋 Topic:     Your first script
+# 🚫 Note:      Please do not share this script with people
+#               outside the class without my permission.
+###########################################################
+
+# This is the first script for this class
 # You are supposed to download, open and run it!
-print("You successfully downloaded, found, opened, and ran this script!")
+print("Never pay more than 20 bucks for a computer game 🐒")
