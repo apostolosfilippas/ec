@@ -318,7 +318,8 @@ print("(9 == 9) and (x != y):", (9 == 9) and (x != y))
 # ----------------------
 # Python requires explicit print() to show output
 result = 5 + 5
-print(result)  # Without print(), you won't see the result
+print(result)
+result
 
 # ----------------------
 # 7.2 Indentation matters!
@@ -333,6 +334,5 @@ print("This line is outside the if block")
 ########################
 ## That's all for today!
 ########################
-
 print("Script completed successfully! You're ready to start Python data analysis.")
 print("See you next time!")
