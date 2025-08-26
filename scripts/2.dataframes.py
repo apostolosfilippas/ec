@@ -137,7 +137,7 @@ print(df[df["test_scores"] == 19])
 # Let's load the reviews data
 
 # Load it to a DataFrame (assuming we're running from base directory)
-df = pd.read_csv("data/reviewsSample10k.csv")
+df = pd.read_csv("data/reviews.csv")
 print(type(df))
 
 # ----------------------
@@ -166,7 +166,7 @@ print(df["productRating"].unique())
 # Let's keep only two star reviews
 df_twostar = df[df["productRating"] == 2]
 # Let's write the new file
-df_twostar.to_csv("output/reviewsSample2star.csv", index=False)
+df_twostar.to_csv("output/reviews_2star.csv", index=False)
 
 # Super easy, right? And way way faster than Excel.
 # And, as will become apparent, way more possibilities...
