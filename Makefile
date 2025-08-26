@@ -28,9 +28,10 @@ clean-venv: ## Clean Python venv
 	fi
 	@[ ! -d .venv ] || rm -rf .venv
 
-clean: ## Clean temporary files and caches
-	@echo "Cleaning temporary files..."
+clean-temp: ## Clean temporary files and caches
+	@echo "🧹 Cleaning temp files..."
 	@rm -rf temp/*.pdf
+	@rm -rf temp/*.csv
 	@echo "Cleanup complete!"
 
 install: ## Install all project deps and create a .venv
@@ -55,7 +56,28 @@ pre-commit-run: ## Run pre-commit on all files
 	@poetry run pre-commit run --all-files
 
 ###############
-##@🚀  Users
+##@🚀 Testing
 ###############
 
-# TBA
+# Run all scripts in the scripts/ folder
+run-scripts: ## Run all Python scripts from clean slate, stop on any error
+	@make clean-temp
+	@echo "🐍 Running all Python scripts in order with error checking..."
+	@set -e; \
+	for script in scripts/1.introduction.py \
+	              scripts/2.dataframes.py \
+	              scripts/3.visualization.py \
+	              scripts/4.combining.py \
+	              scripts/5.inflation.py \
+	              scripts/6.pricing.py \
+	              scripts/7.randomization.py \
+	              scripts/8.experiments.py \
+	              scripts/9.experiments-advanced.py; do \
+		echo ""; \
+		echo "🚀 Running $$script..."; \
+		python $$script || { echo "❌ Error in $$script - stopping execution"; exit 1; }; \
+		echo "✅ $$script completed successfully"; \
+	done
+	@echo ""
+	@echo "🎉 All scripts completed successfully!"
+	@echo "📊 Check the temp/ folder for generated visualizations"
