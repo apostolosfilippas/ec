@@ -1,5 +1,4 @@
 .DS_Store
 .venv/
 temp/*
-data/reviewsSample2star.csv
 !*.gitkeep
