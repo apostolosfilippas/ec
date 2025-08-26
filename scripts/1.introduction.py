@@ -148,10 +148,10 @@ os.chdir(os.path.expanduser("~/ec/"))
 print("Current working directory:", os.getcwd())
 
 # Windows
-os.chdir("C:/Users/username/Desktop")  # Windows
-print("Current working directory:", os.getcwd())
-os.chdir(os.path.expanduser("~/ec/"))
-print("Current working directory:", os.getcwd())
+# os.chdir("C:/Users/username/Desktop")  # Windows
+# print("Current working directory:", os.getcwd())
+# os.chdir(os.path.expanduser("~/ec/"))
+# print("Current working directory:", os.getcwd())
 
 # ----------------------
 # 3.3 Better practice: Use relative paths
@@ -167,12 +167,12 @@ os.chdir("scripts")
 print("Current working directory:", os.getcwd())
 
 # Windows
-os.chdir(os.path.expanduser("C:/Users/username/ec/scripts"))
-print("Current working directory:", os.getcwd())
-os.chdir(os.path.expanduser("C:/Users/username/ec"))
-print("Current working directory:", os.getcwd())
-os.chdir("scripts")
-print("Current working directory:", os.getcwd())
+# os.chdir(os.path.expanduser("C:/Users/username/ec/scripts"))
+# print("Current working directory:", os.getcwd())
+# os.chdir(os.path.expanduser("C:/Users/username/ec"))
+# print("Current working directory:", os.getcwd())
+# os.chdir("scripts")
+# print("Current working directory:", os.getcwd())
 
 
 ########################
