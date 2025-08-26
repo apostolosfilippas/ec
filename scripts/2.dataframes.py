@@ -166,7 +166,7 @@ print(df["productRating"].unique())
 # Let's keep only two star reviews
 df_twostar = df[df["productRating"] == 2]
 # Let's write the new file
-df_twostar.to_csv("data/reviewsSample2star.csv", index=False)
+df_twostar.to_csv("output/reviewsSample2star.csv", index=False)
 
 # Super easy, right? And way way faster than Excel.
 # And, as will become apparent, way more possibilities...
