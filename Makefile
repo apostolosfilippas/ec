@@ -59,6 +59,23 @@ pre-commit-run: ## Run pre-commit on all files
 ##@🚀 Testing
 ###############
 
+# Convert all notebooks to PDF
+notebooks-to-pdf: ## Convert all Jupyter notebooks to PDF and save in temp/
+	@echo "📓 Converting all Jupyter notebooks to PDF..."
+	@make clean-temp
+	@set -e; \
+	for notebook in scripts/*.ipynb; do \
+		if [ -f "$$notebook" ]; then \
+			notebook_name=$$(basename "$$notebook" .ipynb); \
+			echo "🔄 Converting $$notebook_name.ipynb to PDF..."; \
+			jupyter nbconvert --to webpdf --allow-chromium-download "$$notebook" --output-dir temp/ || { echo "❌ Error converting $$notebook"; exit 1; }; \
+			echo "✅ $$notebook_name.pdf created successfully"; \
+		fi; \
+	done
+	@echo ""
+	@echo "🎉 All notebooks converted to PDF!"
+	@echo "📂 PDFs saved in temp/ directory"
+
 # Run all scripts in the scripts/ folder
 run-scripts: ## Run all Python scripts from clean slate, stop on any error
 	@make clean-temp
