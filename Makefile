@@ -1,7 +1,4 @@
-# RAGbench Development Makefile
-# - Common commands for RAGbench development workflow
 .PHONY: help install clean format lint docs
-# - Add common poetry installation paths to PATH
 export PATH := $(HOME)/.local/bin:$(PATH)
 
 ###############
@@ -58,18 +55,6 @@ install-requirements: ## Install packages from requirements.txt (requires active
 		echo "❗ Virtual environment is not active. Please activate your .venv first."; \
 		exit 1; \
 	fi
-
-###############
-##@🔧 Code Quality
-###############
-format: ## Run black on all Python files
-	@echo "Running black on all Python files..."
-	@poetry run black --line-length 100 ragbench/
-	@poetry run black --line-length 100 scripts/
-
-pre-commit-run: ## Run pre-commit on all files
-	@echo "Running pre-commit on all files..."
-	@poetry run pre-commit run --all-files
 
 ###############
 ##@🚀 User
