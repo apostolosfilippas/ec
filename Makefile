@@ -56,11 +56,9 @@ pre-commit-run: ## Run pre-commit on all files
 	@poetry run pre-commit run --all-files
 
 ###############
-##@🚀 Testing
+##@🚀 User
 ###############
-
-# Convert all notebooks to PDF
-notebooks-to-pdf: ## Convert all Jupyter notebooks to PDF and save in temp/
+pdfs: ## Convert all Jupyter notebooks in the scripts/ folder to PDF and save in temp/
 	@echo "📓 Converting all Jupyter notebooks to PDF..."
 	@make clean-temp
 	@set -e; \
@@ -81,7 +79,7 @@ run-scripts: ## Run all Python scripts from clean slate, stop on any error
 	@make clean-temp
 	@echo "🐍 Running all Python scripts in order with error checking..."
 	@set -e; \
-	for script in scripts/1.introduction.py \
+	for script in scripts/0.simple.py \
 	              scripts/2.dataframes.py \
 	              scripts/3.visualization.py \
 	              scripts/4.combining.py \
@@ -97,4 +95,27 @@ run-scripts: ## Run all Python scripts from clean slate, stop on any error
 	done
 	@echo ""
 	@echo "🎉 All scripts completed successfully!"
+	@echo "📊 Check the temp/ folder for generated visualizations"
+
+# Run all notebooks in the scripts/ folder
+run-notebooks: ## Run all Jupyter notebooks from clean slate, stop on any error
+	@make clean-temp
+	@echo "📓 Running all Jupyter notebooks in order with error checking..."
+	@set -e; \
+	for notebook in scripts/1.introduction.ipynb \
+	              scripts/2.dataframes.ipynb \
+	              scripts/3.visualization.ipynb \
+	              scripts/4.combining.ipynb \
+	              scripts/5.inflation.ipynb \
+	              scripts/6.pricing.ipynb \
+	              scripts/7.randomization.ipynb \
+	              scripts/8.experiments.ipynb \
+	              scripts/9.experiments-advanced.ipynb; do \
+		echo ""; \
+		echo "🚀 Running $$notebook..."; \
+		jupyter nbconvert --to notebook --execute --inplace "$$notebook" || { echo "❌ Error in $$notebook - stopping execution"; exit 1; }; \
+		echo "✅ $$notebook completed successfully"; \
+	done
+	@echo ""
+	@echo "🎉 All notebooks completed successfully!"
 	@echo "📊 Check the temp/ folder for generated visualizations"
