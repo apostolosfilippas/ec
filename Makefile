@@ -34,14 +34,30 @@ clean-temp: ## Clean temporary files and caches
 	@rm -rf temp/*.csv
 	@echo "Cleanup complete!"
 
-install: ## Install all project deps and create a .venv
-	@make clean-venv
-	@echo "Creating a venv from pyproject.toml and installing deps using poetry..."
-	poetry install --with dev
-	@echo "Installing pre-commit hooks..."
-	poetry run pre-commit install
-	@echo "All deps installed and venv created."
-	@echo "Use 'eval $$(poetry env activate)' to activate the venv."
+export: ## Export current venv packages to requirements.txt
+	@echo "📦 Exporting packages from .venv to requirements.txt..."
+	@if [ -n "$$VIRTUAL_ENV" ]; then \
+		pip freeze > requirements.txt; \
+		echo "✅ requirements.txt created successfully with $$(wc -l < requirements.txt) packages"; \
+	else \
+		echo "❗ Virtual environment is not active. Please activate your .venv first."; \
+		exit 1; \
+	fi
+
+install-requirements: ## Install packages from requirements.txt (requires active venv)
+	@echo "📦 Installing packages from requirements.txt..."
+	@if [ -n "$$VIRTUAL_ENV" ]; then \
+		if [ -f requirements.txt ]; then \
+			pip install -r requirements.txt; \
+			echo "✅ All packages from requirements.txt installed successfully"; \
+		else \
+			echo "❗ requirements.txt not found. Run 'make export' first to create it."; \
+			exit 1; \
+		fi; \
+	else \
+		echo "❗ Virtual environment is not active. Please activate your .venv first."; \
+		exit 1; \
+	fi
 
 ###############
 ##@🔧 Code Quality
