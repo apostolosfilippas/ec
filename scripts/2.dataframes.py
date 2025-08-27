@@ -281,7 +281,7 @@ df_crozet = df_crozet.sort_values("lotsize", ascending=False)
 print(df_crozet.head())
 
 # Or we can chain the operations together:
-df_crozet_2 = df_homes.query('city == "CROZET"')[  # Alternative filtering syntax
+df_crozet_2 = df_homes[df_homes["city"] == "CROZET"][  # Filter for Crozet
     ["totalvalue", "lotsize"]
 ].sort_values("lotsize", ascending=False)
 
@@ -300,68 +300,89 @@ df_crozet_2 = df_homes.query('city == "CROZET"')[  # Alternative filtering synta
 # ----------------------
 # We can create new columns using assignment
 
-df_new = df_homes.assign(value_sqft=lambda x: x["totalvalue"] / x["finsqft"])[
+# Create a copy of the data to work with
+df_new = df_homes.copy()
+
+# Create a new column by dividing two existing columns
+df_new["value_sqft"] = df_new["totalvalue"] / df_new["finsqft"]
+
+# Select only the columns we want and sort by value per square foot
+df_new = df_new[
     ["yearbuilt", "condition", "finsqft", "totalvalue", "city", "value_sqft"]
-].sort_values("value_sqft", ascending=False)
+]
+df_new = df_new.sort_values("value_sqft", ascending=False)
 
-# It can also hold a condition
-df_new = (
-    df_homes.assign(value_sqft=lambda x: x["totalvalue"] / x["finsqft"])[
-        ["yearbuilt", "condition", "finsqft", "totalvalue", "city", "value_sqft"]
+print(df_new.head())
+
+# We can also create conditional columns
+# First, let's create the value_sqft column again
+df_new = df_homes.copy()
+df_new["value_sqft"] = df_new["totalvalue"] / df_new["finsqft"]
+
+# Create a column that shows if a house has high value per sqft
+median_value_sqft = df_new["value_sqft"].median()
+df_new["high_value_sqft"] = df_new["value_sqft"] > median_value_sqft
+
+# Select columns and sort
+df_new = df_new[
+    [
+        "yearbuilt",
+        "condition",
+        "finsqft",
+        "totalvalue",
+        "city",
+        "value_sqft",
+        "high_value_sqft",
     ]
-    .sort_values("value_sqft", ascending=False)
-    .assign(high_value_sqft=lambda x: x["value_sqft"] > x["value_sqft"].median())
-)
+]
+df_new = df_new.sort_values("value_sqft", ascending=False)
 
-# Using numpy.where (similar to ifelse)
-df_new = (
-    df_homes.assign(value_sqft=lambda x: x["totalvalue"] / x["finsqft"])[
-        ["yearbuilt", "condition", "finsqft", "totalvalue", "city", "value_sqft"]
-    ]
-    .sort_values("value_sqft", ascending=False)
-    .assign(
-        high_value_sqft=lambda x: np.where(
-            x["value_sqft"] > x["value_sqft"].median(), 1, 0
-        )
-    )
-)
+print(df_new.head())
 
-# Multiple variables in same command
-df_new = df_homes.assign(
-    value_sqft=lambda x: x["totalvalue"] / x["finsqft"],
-    remodel=lambda x: np.where(x["yearremodeled"] > 0, 1, 0),
-)[["value_sqft", "remodel", "city"]].sort_values("value_sqft")
+# Creating multiple new columns at once
+df_new = df_homes.copy()
+
+# Create value per square foot
+df_new["value_sqft"] = df_new["totalvalue"] / df_new["finsqft"]
+
+# Create remodel indicator (1 if remodeled, 0 if not)
+df_new["remodel"] = (df_new["yearremodeled"] > 0).astype(int)
+
+# Select only the columns we want and sort
+df_new = df_new[["value_sqft", "remodel", "city"]]
+df_new = df_new.sort_values("value_sqft")
+
+print(df_new.head())
 
 # ----------------------
 # 4.2 Summary statistics
 # ----------------------
 # This computes summary statistics and creates a new DataFrame
 
-df_homes_stats = (
-    df_homes
-    # Remove houses for which we do not have yearbuilt info
-    .query("yearbuilt > 0")
-    # Compute the following summary statistics
-    .agg({"yearbuilt": ["min", "max", "count", "mean", "median"]}).round(2)
-)
+# First, filter houses with yearbuilt info
+df_homes_filtered = df_homes[df_homes["yearbuilt"] > 0]
+
+# Compute summary statistics
+df_homes_stats = df_homes_filtered.agg(
+    {"yearbuilt": ["min", "max", "count", "mean", "median"]}
+).round(2)
 
 print(df_homes_stats)
 
 # Alternative approach using describe
-df_homes_stats = df_homes.query("yearbuilt > 0")["yearbuilt"].describe()
+df_homes_stats = df_homes_filtered["yearbuilt"].describe()
 
 # ----------------------
 # 4.3 Group by operations
 # ----------------------
 # This function groups cases by common values of one or more columns
 
+# First, filter houses with yearbuilt info
+df_homes_filtered = df_homes[df_homes["yearbuilt"] > 0]
+
+# Group by city and compute summary statistics
 df_homes_stats = (
-    df_homes
-    # Remove houses for which we do not have yearbuilt info
-    .query("yearbuilt > 0")
-    # Group by city
-    .groupby("city")["yearbuilt"]
-    # Compute the following summary statistics
+    df_homes_filtered.groupby("city")["yearbuilt"]
     .agg(["min", "max", "count", "mean", "median"])
     .round(2)
     .reset_index()
@@ -370,30 +391,31 @@ df_homes_stats = (
 print(df_homes_stats)
 
 # If you don't want to obtain summaries but only within-group quantities
-df_homes_stats = (
-    df_homes
-    # Remove houses for which we do not have yearbuilt info
-    .query("yearbuilt > 0")
-    # Add group-wise median
-    .assign(
-        median_yearbuilt=lambda x: x.groupby("city")["yearbuilt"].transform("median")
-    )[["yearbuilt", "condition", "finsqft", "city", "median_yearbuilt"]].assign(
-        new=lambda x: np.where(x["yearbuilt"] >= x["median_yearbuilt"], 1, 0)
-    )
-)
+# First, filter houses with yearbuilt info
+df_homes_filtered = df_homes[df_homes["yearbuilt"] > 0].copy()
+
+# Calculate median year built by city
+median_by_city = df_homes_filtered.groupby("city")["yearbuilt"].median()
+
+# Add the median back to our dataframe
+df_homes_filtered["median_yearbuilt"] = df_homes_filtered["city"].map(median_by_city)
+
+# Create a new column indicating if house is newer than city median
+df_homes_filtered["new"] = (
+    df_homes_filtered["yearbuilt"] >= df_homes_filtered["median_yearbuilt"]
+).astype(int)
+
+# Select only the columns we want
+df_homes_stats = df_homes_filtered[
+    ["yearbuilt", "condition", "finsqft", "city", "median_yearbuilt", "new"]
+]
+
+print(df_homes_stats.head())
 
 # You can group by more than one variable
+# Group by both city and the "new" indicator we just created
 df_homes_stats = (
-    df_homes
-    # Remove houses for which we do not have yearbuilt info
-    .query("yearbuilt > 0")
-    # Add group-wise median
-    .assign(
-        median_yearbuilt=lambda x: x.groupby("city")["yearbuilt"].transform("median")
-    )[["yearbuilt", "condition", "finsqft", "city", "median_yearbuilt"]]
-    .assign(new=lambda x: np.where(x["yearbuilt"] >= x["median_yearbuilt"], 1, 0))
-    .groupby(["city", "new"])["yearbuilt"]
-    # Compute the following summary statistics
+    df_homes_filtered.groupby(["city", "new"])["yearbuilt"]
     .agg(["min", "max", "count", "mean", "median"])
     .round(2)
     .reset_index()
