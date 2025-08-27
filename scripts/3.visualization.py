@@ -212,10 +212,10 @@ plt.close()
 plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df_homes, x="finsqft", y="totalvalue", hue="city")
 
-# Format y-axis as currency
-plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"${x:,.0f}"))
-# Format x-axis with commas
-plt.gca().xaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"{x:,.0f}"))
+# Add better labels to make the plot more readable
+plt.title("Home Values by Size and City")
+plt.xlabel("Finished Square Feet")
+plt.ylabel("Total Value (USD)")
 
 plt.savefig("temp/homes_scales_labels.pdf", dpi=1000, bbox_inches="tight")
 plt.close()
@@ -275,50 +275,65 @@ g.map(plt.hist, "finsqft", bins=20, alpha=0.7)
 g.savefig("temp/homes_facetgrid_city_counts.pdf", dpi=1000, bbox_inches="tight")
 plt.close()
 
-# Alternative: Using seaborn's histplot with subplots
-fig, axes = plt.subplots(
-    len(df_homes["city"].unique()), 1, figsize=(10, 12), sharex=True
-)
-cities = df_homes["city"].unique()
+# Alternative: A simpler approach using individual plots
+# Let's create histograms for a few specific cities to keep it simple
+cities_to_plot = ["CHARLOTTESVILLE", "CROZET", "SCOTTSVILLE"]
 
-for i, city in enumerate(cities):
+for city in cities_to_plot:
+    # Filter data for this city
     city_data = df_homes[df_homes["city"] == city]
-    sns.histplot(data=city_data, x="finsqft", ax=axes[i], bins=20)
-    axes[i].set_title(f"{city}")
-    axes[i].set_ylabel("Count")
 
-plt.tight_layout()
-plt.savefig("temp/homes_histograms_subplots.pdf", dpi=1000, bbox_inches="tight")
-plt.close()
+    # Create a histogram for this city
+    plt.figure(figsize=(8, 5))
+    sns.histplot(data=city_data, x="finsqft", bins=20)
+    plt.title(f"Distribution of House Sizes in {city}")
+    plt.xlabel("Finished Square Feet")
+    plt.ylabel("Number of Houses")
+
+    # Save each plot separately
+    filename = f"temp/homes_histogram_{city.lower().replace(' ', '_')}.pdf"
+    plt.savefig(filename, dpi=1000, bbox_inches="tight")
+    plt.close()
 
 # ----------------------
-# 4.3 Advanced: Correlation heatmap
+# 4.3 Bonus: Correlation heatmap
 # ----------------------
-# Create a correlation matrix of numeric variables
-numeric_cols = df_homes.select_dtypes(include=[np.number]).columns
-correlation_matrix = df_homes[numeric_cols].corr()
+# A correlation heatmap shows how different variables relate to each other
+# Let's look at just a few key variables to keep it simple
 
-plt.figure(figsize=(10, 8))
+# Select key numeric variables
+key_variables = ["finsqft", "totalvalue", "bedroom", "lotsize"]
+homes_subset = df_homes[key_variables]
+
+# Calculate correlations between these variables
+correlation_matrix = homes_subset.corr()
+
+plt.figure(figsize=(8, 6))
 sns.heatmap(
     correlation_matrix,
-    annot=True,
-    cmap="coolwarm",
-    center=0,
-    square=True,
-    linewidths=0.5,
+    annot=True,  # Show the correlation numbers
+    cmap="coolwarm",  # Color scheme: blue=negative, red=positive
+    center=0,  # Center the color scale at 0
 )
-plt.title("Correlation Matrix of Home Features")
+plt.title("How Home Features Relate to Each Other")
 plt.savefig("temp/homes_correlation_heatmap.pdf", dpi=1000, bbox_inches="tight")
 plt.close()
 
 # ----------------------
-# 4.4 Advanced: Pairplot for multiple relationships
+# 4.4 Bonus: Pairplot for multiple relationships
 # ----------------------
-# Create pairwise plots of key variables
+# A pairplot shows relationships between multiple variables at once
+# This creates a grid where each variable is plotted against every other variable
+
+# Select key variables we want to compare
 key_vars = ["finsqft", "totalvalue", "bedroom", "lotsize"]
+
+# Remove any rows with missing data
 plot_data = df_homes[key_vars + ["city"]].dropna()
 
+# Create the pairplot (this may take a moment to generate)
 g = sns.pairplot(data=plot_data, hue="city", height=2.5)
+g.fig.suptitle("Relationships Between All Home Features", y=1.02)
 g.savefig("temp/homes_pairplot.pdf", dpi=1000, bbox_inches="tight")
 plt.close()
 
