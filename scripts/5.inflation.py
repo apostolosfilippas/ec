@@ -48,9 +48,8 @@ print(f"Columns: {df_ratings.columns.tolist()}")
 ###########################
 
 # Let's use pandas datetime functionality to add some useful info
-df_ratings = df_ratings.assign(
-    date_month=lambda x: x["date"].dt.month, date_year=lambda x: x["date"].dt.year
-)
+df_ratings["date_month"] = df_ratings["date"].dt.month
+df_ratings["date_year"] = df_ratings["date"].dt.year
 
 print("Sample of processed data:")
 print(df_ratings.head())
@@ -67,7 +66,9 @@ print(f"Score range: {df_ratings['score'].min()} to {df_ratings['score'].max()}"
 # 3.1 Distribution of ratings
 # ----------------------
 # Let's look at the distribution of ratings for 2015-2016
-ratings_subset = df_ratings.query("date_year in [2015, 2016]")
+ratings_subset = df_ratings[
+    (df_ratings["date_year"] == 2015) | (df_ratings["date_year"] == 2016)
+]
 
 plt.figure(figsize=(10, 6))
 sns.histplot(
@@ -108,9 +109,11 @@ df_ratings_evolution.columns = [
 ]
 
 # Calculate standard error and time variable
-df_ratings_evolution = df_ratings_evolution.assign(
-    score_se=lambda x: np.sqrt(x["score_var"]) / np.sqrt(x["num_obs"]),
-    t=lambda x: 12 * (x["date_year"] - 2007) + x["date_month"],
+df_ratings_evolution["score_se"] = np.sqrt(df_ratings_evolution["score_var"]) / np.sqrt(
+    df_ratings_evolution["num_obs"]
+)
+df_ratings_evolution["t"] = (
+    12 * (df_ratings_evolution["date_year"] - 2007) + df_ratings_evolution["date_month"]
 )
 
 print("Sample of evolution data:")
@@ -181,35 +184,32 @@ plt.savefig("temp/ratings_evolution_simple.pdf", dpi=1000, bbox_inches="tight")
 plt.close()
 
 # ----------------------
-# 4.4 Statistical analysis
+# 4.4 Simple trend analysis
 # ----------------------
-# Let's calculate some key statistics about the trend
-
-# Linear trend analysis
-from scipy import stats
-
-# Get the time series data
-time_points = df_ratings_evolution["t"].values
-mean_scores = df_ratings_evolution["score_mean"].values
-
-# Fit linear regression
-slope, intercept, r_value, p_value, std_err = stats.linregress(time_points, mean_scores)
-
-print(f"\nTrend Analysis:")
-print(f"Slope (change per month): {slope:.6f}")
-print(f"R-squared: {r_value**2:.4f}")
-print(f"P-value: {p_value:.6f}")
-print(f"Annual change: {slope * 12:.4f} points per year")
+# Let's calculate some basic statistics about the trend
 
 # Calculate percentage increase over the entire period
-initial_score = mean_scores[0]
-final_score = mean_scores[-1]
+initial_score = df_ratings_evolution["score_mean"].iloc[0]
+final_score = df_ratings_evolution["score_mean"].iloc[-1]
 total_increase = ((final_score - initial_score) / initial_score) * 100
 
 print(f"\nOverall Change:")
 print(f"Initial average score: {initial_score:.3f}")
 print(f"Final average score: {final_score:.3f}")
 print(f"Total percentage increase: {total_increase:.2f}%")
+
+# Look at the difference between early and late periods
+early_period = df_ratings_evolution[df_ratings_evolution["date_year"] <= 2010][
+    "score_mean"
+].mean()
+late_period = df_ratings_evolution[df_ratings_evolution["date_year"] >= 2015][
+    "score_mean"
+].mean()
+
+print(f"\nPeriod Comparison:")
+print(f"Early period (2007-2010) average: {early_period:.3f}")
+print(f"Late period (2015-2017) average: {late_period:.3f}")
+print(f"Difference: {late_period - early_period:.3f} points")
 
 
 # --------------------------------------------------------

@@ -64,11 +64,11 @@ np.random.seed(44)
 # 2.2 Randomized assignment
 # ----------------------
 # Just add a column to the data frame that contains a random number between 0 and 1
-df_users = df_users.assign(random_number=np.random.uniform(0, 1, len(df_users)))
+df_users["random_number"] = np.random.uniform(0, 1, len(df_users))
 
 # And then assign to treatment only those users that "drew" more than 0.5
-df_users = df_users.assign(
-    treatment=lambda x: np.where(x["random_number"] > 0.5, "Treatment", "Control")
+df_users["treatment"] = np.where(
+    df_users["random_number"] > 0.5, "Treatment", "Control"
 )
 
 # How many users did we assign?
@@ -91,10 +91,8 @@ print(df_assignment)
 # You can pick exactly half as follows
 treatment_users = df_users.sample(n=len(df_users) // 2, random_state=44)
 
-df_users = df_users.assign(
-    treatment=lambda x: np.where(
-        x["user"].isin(treatment_users["user"]), "Treatment", "Control"
-    )
+df_users["treatment"] = np.where(
+    df_users["user"].isin(treatment_users["user"]), "Treatment", "Control"
 )
 
 # How many users did we assign?

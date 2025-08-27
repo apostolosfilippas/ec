@@ -95,8 +95,8 @@ df_stats.columns = ["sample_mean", "sample_var", "sample_size"]
 df_stats = df_stats.reset_index()
 
 # Calculate standard error
-df_stats = df_stats.assign(
-    sample_se=lambda x: np.sqrt(x["sample_var"]) / np.sqrt(x["sample_size"])
+df_stats["sample_se"] = np.sqrt(df_stats["sample_var"]) / np.sqrt(
+    df_stats["sample_size"]
 )
 
 print("\nDetailed statistics by treatment group:")

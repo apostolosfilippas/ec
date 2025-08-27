@@ -231,22 +231,27 @@ print("Joining with different column names:")
 print(df_all[["surname", "title", "director_name", "nationality", "birth_year"]].head())
 
 # ----------------------
-# 4.3 Using method chaining with joins
+# 4.3 Adding calculations after joins
 # ----------------------
-# We can combine joins with other pandas operations using method chaining
+# We can add new columns and calculations after joining DataFrames
 
-df_final = (
-    df_movies.merge(df_directors, on="surname", how="left")
-    .assign(
-        title_length=lambda x: x["title"].str.len(),
-        is_us_director=lambda x: x["nationality"] == "US",
-    )
-    .query("nationality.notna()")  # Remove rows with missing nationality
-    .sort_values("title_length", ascending=False)
-    .reset_index(drop=True)
-)
+# First, do the join
+df_final = df_movies.merge(df_directors, on="surname", how="left")
 
-print("Method chaining with joins:")
+# Add new columns step by step
+df_final["title_length"] = df_final["title"].str.len()
+df_final["is_us_director"] = df_final["nationality"] == "US"
+
+# Remove rows with missing nationality
+df_final = df_final[df_final["nationality"].notna()]
+
+# Sort by title length
+df_final = df_final.sort_values("title_length", ascending=False)
+
+# Reset the index
+df_final = df_final.reset_index(drop=True)
+
+print("Adding calculations after joins:")
 print(df_final)
 
 
@@ -285,18 +290,27 @@ movies_meta = pd.DataFrame(
     }
 )
 
-# Combine all three datasets
-combined_data = (
-    ratings.merge(users, on="user_id", how="left")
-    .merge(movies_meta, on="movie_id", how="left")
-    .assign(
-        user_age_group=lambda x: pd.cut(
-            x["age"],
-            bins=[0, 25, 35, 50, 100],
-            labels=["18-25", "26-35", "36-50", "50+"],
-        )
-    )
-)
+# Combine all three datasets step by step
+# First, add user information to ratings
+combined_data = ratings.merge(users, on="user_id", how="left")
+
+# Then, add movie information
+combined_data = combined_data.merge(movies_meta, on="movie_id", how="left")
+
+
+# Create age groups for users
+def get_age_group(age):
+    if age <= 25:
+        return "18-25"
+    elif age <= 35:
+        return "26-35"
+    elif age <= 50:
+        return "36-50"
+    else:
+        return "50+"
+
+
+combined_data["user_age_group"] = combined_data["age"].apply(get_age_group)
 
 print("Combined ratings data sample:")
 print(combined_data.head(10))
@@ -306,17 +320,11 @@ summary_stats = (
     combined_data.groupby(["genre", "user_age_group"])
     .agg({"rating": ["mean", "count"], "user_id": "nunique"})
     .round(2)
-    .reset_index()
 )
 
-# Flatten column names
-summary_stats.columns = [
-    "genre",
-    "user_age_group",
-    "avg_rating",
-    "total_ratings",
-    "unique_users",
-]
+# Simplify the column names
+summary_stats.columns = ["avg_rating", "total_ratings", "unique_users"]
+summary_stats = summary_stats.reset_index()
 
 print("Summary statistics by genre and age group:")
 print(summary_stats)

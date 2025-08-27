@@ -71,8 +71,9 @@ if df_changes["start_t"].dtype == "datetime64[ns]":
     df_changes["start_t"] = pd.to_numeric(df_changes["start_t"])
     df_changes["end_t"] = pd.to_numeric(df_changes["end_t"])
 
-df_changes = df_changes.assign(
-    price_changes=lambda x: x["n"] / (x["end_t"] - x["start_t"] + 1)
+# Calculate price changes rate
+df_changes["price_changes"] = df_changes["n"] / (
+    df_changes["end_t"] - df_changes["start_t"] + 1
 )
 
 print("Sample of price changes data:")
@@ -90,11 +91,9 @@ print(f"Average price changes per period: {df_changes['price_changes'].mean():.3
 bin_edges = [0, 1, 2, 3, 4, 5, 6, 10, 15, np.ceil(df_changes["price_changes"].max())]
 
 # Create bins
-df_changes = df_changes.assign(
-    score_bins=lambda x: pd.cut(
-        x["price_changes"], bins=bin_edges, include_lowest=True, right=False
-    )  # Left-inclusive bins
-)
+df_changes["score_bins"] = pd.cut(
+    df_changes["price_changes"], bins=bin_edges, include_lowest=True, right=False
+)  # Left-inclusive bins
 
 print("Price change bins:")
 print(df_changes["score_bins"].value_counts().sort_index())
@@ -109,11 +108,11 @@ df_bins = (
     .reset_index()
 )
 
-df_bins = df_bins.assign(
-    total=lambda x: x["num_obs"].sum(),
-    pct=lambda x: x["num_obs"] / x["num_obs"].sum(),
-    ecdf=lambda x: x["pct"].cumsum(),
-)
+# Calculate percentages
+total_obs = df_bins["num_obs"].sum()
+df_bins["total"] = total_obs
+df_bins["pct"] = df_bins["num_obs"] / total_obs
+df_bins["ecdf"] = df_bins["pct"].cumsum()
 
 print("Binned data for visualization:")
 print(df_bins)
@@ -158,7 +157,10 @@ plt.ylabel("Percentage", fontsize=14)
 plt.title("Distribution of Price Change Frequency", fontsize=16, fontweight="bold")
 
 # Format y-axis as percentages
-plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y:.0%}"))
+# Format y-axis as percentages
+from matplotlib.ticker import PercentFormatter
+
+plt.gca().yaxis.set_major_formatter(PercentFormatter(1))
 plt.ylim(0, 1.05)
 
 # Set x-axis labels

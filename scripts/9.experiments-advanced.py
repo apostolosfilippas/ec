@@ -376,9 +376,9 @@ for i in range(num_experiments):
 df_confidence_intervals = pd.DataFrame(confidence_intervals)
 
 # Compute standard errors
-df_confidence_intervals = df_confidence_intervals.assign(
-    sample_se=lambda x: np.sqrt(x["sample_var"]) / np.sqrt(sample_size)
-)
+df_confidence_intervals["sample_se"] = np.sqrt(
+    df_confidence_intervals["sample_var"]
+) / np.sqrt(sample_size)
 
 # Create confidence interval plot
 plt.figure(figsize=(12, 8))
@@ -448,8 +448,8 @@ for sample_size in sample_sizes:
 df_ci_various = pd.DataFrame(ci_various)
 
 # Compute standard errors
-df_ci_various = df_ci_various.assign(
-    sample_se=lambda x: np.sqrt(x["sample_var"]) / np.sqrt(x["sample_size"])
+df_ci_various["sample_se"] = np.sqrt(df_ci_various["sample_var"]) / np.sqrt(
+    df_ci_various["sample_size"]
 )
 
 plt.figure(figsize=(10, 6))
