@@ -2,4 +2,4 @@
 .venv/
 temp/*
 !*.gitkeep
-*.edsl
+*.edsl_model_archive.json
