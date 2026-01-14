@@ -1,0 +1,19 @@
+[project]
+name = "ec"
+version = "0.1.0"
+description = "E-Commerce - Python for Data Analysis"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ipykernel>=6.0.0",
+    "jupyter>=1.0.0",
+    "matplotlib>=3.10.0",
+    "nbconvert>=7.0.0",
+    "numpy>=2.0.0",
+    "pandas>=2.3.0",
+    "patsy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "scipy>=1.13.0",
+    "seaborn>=0.13.0",
+    "statsmodels>=0.14.0",
+]

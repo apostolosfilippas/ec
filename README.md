@@ -1,19 +1,53 @@
 # E-Commerce
 
-## 📚 Description
-This is the hands-on portin of our E-Commerce class
-- We will be using Python
-- We will copver topics from basic data manipulation to advanced experimental design.
+## Description
+This is the hands-on portion of our E-Commerce class
+- We will be using Python 3.13
+- We use **uv** for Python version management and package management
+- We will cover topics from basic data manipulation to advanced experimental design.
 
 My sole hope is that this will help you get your hands dirty with Python.
 
 
-## 📋 Prerequisites 
-- Please read [this document](https://docs.google.com/document/d/1jUiWn5Q7L2bPBx7yrEfOYs7Cy5U-pQGrA9VJSkVC5Bs/edit?usp=sharing) to get started
-- Make sure that Python is installed in your system
+## Prerequisites
+
+### 1. Install uv (Python Package Manager)
+
+**macOS / Linux:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+**Windows (PowerShell):**
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+After installation, restart your terminal and verify:
+```bash
+uv --version
+```
+
+### 2. Clone this repository
+```bash
+git clone <repository-url>
+cd ec
+```
+
+### 3. Install Python and dependencies
+```bash
+make install
+```
+
+This will:
+- Install Python 3.13 (if not already installed)
+- Create a virtual environment
+- Install all required packages
+- Install pre-commit hooks
+- Register the Jupyter kernel
 
 
-## 🗺️ Roadmap
+## Roadmap
 
 | Class | Topic | Script | Key Concepts |
 |-------|-------|--------|--------------|
@@ -27,3 +61,44 @@ My sole hope is that this will help you get your hands dirty with Python.
 | 7 | **Randomized Assignment** | `7.randomization.py` | A/B testing, balance tests |
 | 8 | **Experiment Analysis** | `8.experiments.py` | Treatment effects, statistical significance |
 | 9 | **Statistical Foundations** | `9.experiments-advanced.py` | Law of Large Numbers, Central Limit Theorem |
+
+
+## Quick Reference
+
+### Common Commands
+
+```bash
+# Install everything
+make install
+
+# Uninstall (remove venv and hooks)
+make uninstall
+
+# Add a new package
+make add PKG=package-name
+
+# Remove a package
+make remove PKG=package-name
+
+# Run a Python script
+make run SCRIPT=scripts/example.py
+
+# Start Jupyter notebook
+make jupyter
+
+# See all available commands
+make help
+```
+
+### Running Python with uv
+
+```bash
+# Run a script
+uv run python scripts/example.py
+
+# Open Python REPL
+uv run python
+
+# Install a package
+uv add package-name
+```
