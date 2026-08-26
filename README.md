@@ -1,7 +1,7 @@
-# E-Commerce
+# Marketplaces
 
 ## Description
-This is the hands-on portion of our E-Commerce class
+This is the hands-on portion of our Marketplaces class
 - We will be using Python 3.13
 - We use **uv** for Python version management and package management
 - We will cover topics from basic data manipulation to advanced experimental design.

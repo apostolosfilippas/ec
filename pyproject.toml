@@ -1,7 +1,7 @@
 [project]
-name = "ec"
+name = "ma"
 version = "0.1.0"
-description = "E-Commerce - Python for Data Analysis"
+description = "Marketplaces - Python for Data Analysis"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

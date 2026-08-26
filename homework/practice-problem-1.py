@@ -1,6 +1,6 @@
 ###########################################################
 # 🎓 Professor: Apostolos Filippas
-# 📘 Class:     E-Commerce
+# 📘 Class:     Marketplaces
 # 📋 Topic:     Python Fundamentals Practice
 # 🚫 Note:      Please do not share this script with people
 #               outside the class without my permission.
