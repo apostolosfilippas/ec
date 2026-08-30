@@ -5,6 +5,7 @@ description = "Marketplaces - Python for Data Analysis"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "edsl>=1.0.8",
     "ipykernel>=6.0.0",
     "jupyter>=1.0.0",
     "matplotlib>=3.10.0",
