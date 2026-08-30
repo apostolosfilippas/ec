@@ -1,7 +1,7 @@
 ###########################################################
 # 🎓 Professor: Apostolos Filippas
 # 📘 Class:     AI and Data-Driven Marketplaces
-# 📋 Topic:     Python Fundamentals Practice
+# 📋 Topic:     Course Setup and Python Preview
 # 🚫 Note:      Please do not share this script with people
 #               outside the class without my permission.
 ###########################################################
@@ -11,46 +11,28 @@
 ### Practice Problem 1
 ########################
 
-## Exercise 1
-# 1. Create three variables with names r4, r5, r6, and
-#    assign to them any numerical value you'd like.
-# 2. Now update variable r6 with the result of r4 + r5
+# This first practice problem is about getting your computer ready
+# and becoming familiar with the course materials. You are not
+# expected to write or submit Python code for this problem.
 
 
-## Exercise 2
-# 1. Store the numbers [1,10,5,6,7,8,3,4] in a list called my_list
-# 2. Estimate the mean of my_list, and store the mean
-#    into a variable with name avg_value.
-# Hint: you can use numpy: import numpy as np, then np.mean()
+## Part 1: Complete the Getting Started guide
+# 1. Open the Getting Started guide:
+#    https://docs.google.com/document/d/1yem70IRXqJCJg5L_zHRvWUcb-4Cj_NI8v_GQUWmpmT0/edit
+# 2. Work through the entire guide from beginning to end.
+# 3. Complete every step and every "Check" in the guide. Make sure
+#    you can use VS Code, Git and GitHub, uv, the terminal, Python,
+#    and a Jupyter notebook as described there.
+# 4. If something does not work, save the full error message and a
+#    screenshot of the whole window so that we can help you.
 
 
-## Exercise 3
-# 1. Estimate the standard deviation of the list.
-# 2. Store this value into a new variable with name sd_value.
-# Hint: you can use numpy: np.std(my_list, ddof=1) for sample standard deviation
+## Part 2: Preview the first Python notebook
+# 1. In VS Code, open scripts/1.introduction.ipynb.
+# 2. Read through the notebook and run as much of it as you can.
+# 3. Try to understand as much as possible. Pay attention to the
+#    examples, the Python vocabulary, and what each code cell does.
 
-
-## Exercise 4
-# Apply the following to the list:
-# (my_list - avg_value) / (sd_value).
-# Store the resulting list into a new
-# variable with name standard_list.
-# Hint: Convert to numpy array first: np.array(my_list)
-
-
-## Exercise 5
-# You have just estimated a standardized vector (list)!
-# See more here: https://en.wikipedia.org/wiki/Standard_score
-# 1. estimate the mean value and standard deviation of the standard_list.
-# 2. What are their values?
-
-
-## Exercise 6
-# 1. After running the code above, execute the following commands
-# 2. Look at the output. What did just happen?
-import matplotlib.pyplot as plt
-
-plt.hist(my_list)
-plt.show()
-plt.hist(standard_list)
-plt.show()
+# Important: Do not worry if parts of the notebook are confusing.
+# We will cover this material together in class. The goal for now is
+# simply to become familiar with the notebook and arrive with questions.
