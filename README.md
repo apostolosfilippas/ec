@@ -30,8 +30,8 @@ uv --version
 
 ### 2. Clone this repository
 ```bash
-git clone <repository-url>
-cd ec
+git clone https://github.com/apostolosfilippas/ma.git
+cd ma
 ```
 
 ### 3. Install Python and dependencies
@@ -51,16 +51,16 @@ This will:
 
 | Class | Topic | Script | Key Concepts |
 |-------|-------|--------|--------------|
-| 0 | **Getting Started** | `0.getting-started.py` | Variables, data types, basic operations |
-| 1 | **Python Fundamentals** | `1.introduction.py` | Variables, data types, basic operations |
-| 2 | **DataFrames & Analysis** | `2.dataframes.py` | pandas, data manipulation, method chaining |
-| 3 | **Data Visualization** | `3.visualization.py` | matplotlib, seaborn, statistical plots |
-| 4 | **Combining Data** | `4.combining.py` | Merging, joining, concatenating datasets |
-| 5 | **Time Series Analysis** | `5.inflation.py` | Reputation inflation, trend analysis |
-| 6 | **Pricing Behavior** | `6.pricing.py` | Market dynamics, pricing patterns |
-| 7 | **Randomized Assignment** | `7.randomization.py` | A/B testing, balance tests |
-| 8 | **Experiment Analysis** | `8.experiments.py` | Treatment effects, statistical significance |
-| 9 | **Statistical Foundations** | `9.experiments-advanced.py` | Law of Large Numbers, Central Limit Theorem |
+| 0 | **Getting Started** | `0.simple.ipynb` | Variables, data types, basic operations |
+| 1 | **Python Fundamentals** | `1.introduction.ipynb` | Variables, data types, basic operations |
+| 2 | **DataFrames & Analysis** | `2.dataframes.ipynb` | pandas, data manipulation, method chaining |
+| 3 | **Data Visualization** | `3.visualization.ipynb` | matplotlib, seaborn, statistical plots |
+| 4 | **Combining Data** | `4.combining.ipynb` | Merging, joining, concatenating datasets |
+| 5 | **Time Series Analysis** | `5.inflation.ipynb` | Reputation inflation, trend analysis |
+| 6 | **Pricing Behavior** | `6.pricing.ipynb` | Market dynamics, pricing patterns |
+| 7 | **Randomized Assignment** | `7.randomization.ipynb` | A/B testing, balance tests |
+| 8 | **Experiment Analysis** | `8.experiments.ipynb` | Treatment effects, statistical significance |
+| 9 | **Statistical Foundations** | `9.experiments-advanced.ipynb` | Law of Large Numbers, Central Limit Theorem |
 
 
 ## Quick Reference
@@ -81,7 +81,7 @@ make add PKG=package-name
 make remove PKG=package-name
 
 # Run a Python script
-make run SCRIPT=scripts/example.py
+make run SCRIPT=scripts/0.simple.py
 
 # Start Jupyter notebook
 make jupyter
@@ -94,7 +94,7 @@ make help
 
 ```bash
 # Run a script
-uv run python scripts/example.py
+uv run python scripts/0.simple.py
 
 # Open Python REPL
 uv run python
