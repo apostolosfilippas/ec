@@ -12,8 +12,9 @@
 ########################
 
 # This first practice problem is about getting your computer ready
-# and becoming familiar with the course materials. You are not
-# expected to write or submit Python code for this problem.
+# and becoming familiar with the course materials. Your submission
+# will be your saved copy of the first Python notebook, showing as
+# much progress as you were able to make.
 
 
 ## Part 1: Complete the Getting Started guide
@@ -32,7 +33,18 @@
 # 2. Read through the notebook and run as much of it as you can.
 # 3. Try to understand as much as possible. Pay attention to the
 #    examples, the Python vocabulary, and what each code cell does.
+# 4. Save your work regularly. You may add comments or notes about
+#    anything you tried, learned, or found confusing.
 
 # Important: Do not worry if parts of the notebook are confusing.
 # We will cover this material together in class. The goal for now is
 # simply to become familiar with the notebook and arrive with questions.
+
+
+## What to submit
+# Submit your saved copy of scripts/1.introduction.ipynb.
+# Submit whatever progress you have made, even if the notebook is
+# incomplete or some cells did not run. Your attempted cells, output,
+# comments, notes, and questions can all show your progress.
+# Before submitting, save the notebook with Command + S on Mac or
+# Control + S on Windows.
