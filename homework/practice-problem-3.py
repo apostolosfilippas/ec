@@ -1,6 +1,6 @@
 ###########################################################
 # 🎓 Professor: Apostolos Filippas
-# 📘 Class:     Marketplaces
+# 📘 Class:     AI and Data-Driven Marketplaces
 # 📋 Topic:     Data Visualization Practice
 # 🚫 Note:      Please do not share this script with people
 #               outside the class without my permission.
