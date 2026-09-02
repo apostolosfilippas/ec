@@ -19,7 +19,7 @@
 
 ## Part 1: Complete the Getting Started guide
 # 1. Open the Getting Started guide:
-#    https://docs.google.com/document/d/1yem70IRXqJCJg5L_zHRvWUcb-4Cj_NI8v_GQUWmpmT0/edit
+#    https://docs.google.com/document/d/1jUiWn5Q7L2bPBx7yrEfOYs7Cy5U-pQGrA9VJSkVC5Bs/edit?tab=t.0#heading=h.unwpkhj1otv
 # 2. Work through the entire guide from beginning to end.
 # 3. Complete every step and every "Check" in the guide. Make sure
 #    you can use VS Code, Git and GitHub, uv, the terminal, Python,
