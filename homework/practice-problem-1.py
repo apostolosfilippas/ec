@@ -19,13 +19,14 @@
 
 ## Part 1: Complete the Getting Started guide
 # 1. Open the Getting Started guide:
-#    https://docs.google.com/document/d/1jUiWn5Q7L2bPBx7yrEfOYs7Cy5U-pQGrA9VJSkVC5Bs/edit?tab=t.0#heading=h.unwpkhj1otv
+#    https://docs.google.com/document/d/1jUiWn5Q7L2bPBx7yrEfOYs7Cy5U-pQGrA9VJSkVC5Bs
 # 2. Work through the entire guide from beginning to end.
 # 3. Complete every step and every "Check" in the guide. Make sure
 #    you can use VS Code, Git and GitHub, uv, the terminal, Python,
 #    and a Jupyter notebook as described there.
 # 4. If something does not work, save the full error message and a
-#    screenshot of the whole window so that we can help you.
+#    screenshot of the whole window. Email them to the TA as well so
+#    that we can help you.
 
 
 ## Part 2: Preview the first Python notebook
